@@ -1,0 +1,55 @@
+.square {
+    -fx-border-style: solid;
+     -fx-background-color: rgba(45, 139, 154, 0.15);
+     -fx-border-color: #2d8b9a;
+     -fx-border-width: 2px;
+     -fx-border-radius: 5px;
+     -fx-background-radius: 5px;
+}
+
+.square:hover {
+    -fx-background-color: whitesmoke;
+}
+
+.square-clicked {
+    -fx-border-color: #000000;
+     -fx-border-width: 4px;
+}
+
+.root {
+    -fx-background-color: #f4e4a9;
+}
+
+/* Style the buttons */
+.button {
+    -fx-background-color: #63c5da;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #2d8b9a;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-font-size: 18px;
+    -fx-font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.button:hover {
+    -fx-background-color: #79d1ec;
+}
+
+/* Style the TextFields */
+.text-field {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #2d8b9a;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-font-size: 16px;
+    -fx-font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+/* Style the Text elements */
+.text {
+    -fx-font-family: "Comic Sans MS", cursive, sans-serif;
+    -fx-fill: #2d8b9a;
+}
+

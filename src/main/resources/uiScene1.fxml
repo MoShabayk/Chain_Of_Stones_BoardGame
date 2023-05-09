@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="BoardGame.BoardGameScene1Controller" stylesheets="@ui.css">
+   <children>
+      <Button fx:id="startGameButton" layoutX="186.0" layoutY="426.0" mnemonicParsing="false" onAction="#onStartGameButtonClick" prefHeight="30.0" prefWidth="228.0" text="Start Game" />
+      <TextField fx:id="player1Name" layoutX="112.0" layoutY="134.0" promptText="Enter Player 1 name" />
+      <TextField fx:id="player2Name" layoutX="374.0" layoutY="135.0" promptText="Enter Player 2 name" />
+   </children>
+</AnchorPane>

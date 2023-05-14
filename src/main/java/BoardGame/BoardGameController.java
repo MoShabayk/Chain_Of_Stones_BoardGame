@@ -13,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import org.tinylog.Logger;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class BoardGameController {
     @FXML
     private void initialize() {
 
-        System.out.println(Model.toString());
+       Logger.info(Model.toString());
 
         gameRecords = new ArrayList<>();
 
@@ -100,13 +101,13 @@ public class BoardGameController {
     private void handleMouseClick(MouseEvent event) {
         if(checkWin())
         {
-            System.out.println("Game Over");
+            Logger.info("Game Over");
             return;
         }
         var square = (StackPane) event.getSource();
         var row = GridPane.getRowIndex(square);
         var col = GridPane.getColumnIndex(square);
-        System.out.printf("Click on square (%d,%d)%n", row, col);
+        Logger.info("Click on square (%d,%d)%n", row, col);
 
         // If this is the first click (no tile is selected yet)
         if (selectedTile == null) {
@@ -126,9 +127,10 @@ public class BoardGameController {
             if (selectedTile[0] != row || selectedTile[1] != col) {
                 // If the current tile is empty, move the selected piece to it
                 if (Model.getSquare(row, col) == Square.NONE) {
-                    Model.move(selectedTile[0], selectedTile[1], row, col);
+                    if (Model.canMove(selectedTile[0], selectedTile[1], row, col)){
+                        Model.move(selectedTile[0], selectedTile[1], row, col);
+                    }
                 }
-
             }
             // Unselect the tile
             if (previouslySelectedSquare != null) {
@@ -145,7 +147,7 @@ public class BoardGameController {
 
     public boolean checkWin() {
         if (Model.check_win(Square.BLUE)) {
-            System.out.println("Blue wins!");
+            Logger.info("Blue wins!");
             scoreSystem.addPlayer2Score(); // Blue is Player 2
             scoreSystem.addMatchLog("Player 2 (Blue) won the game.");
             updateScoreAndMatchLog();
@@ -153,7 +155,7 @@ public class BoardGameController {
             return true;
         }
         if (Model.check_win(Square.RED)) {
-            System.out.println("Red wins!");
+            Logger.info("Red wins!");
             scoreSystem.addPlayer1Score(); // Red is Player 1
             scoreSystem.addMatchLog("Player 1 (Red) won the game.");
             updateScoreAndMatchLog();

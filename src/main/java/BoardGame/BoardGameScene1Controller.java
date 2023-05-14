@@ -3,6 +3,7 @@ package BoardGame;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import org.tinylog.Logger;
 
 public class BoardGameScene1Controller {
 
@@ -33,7 +34,7 @@ public class BoardGameScene1Controller {
     @FXML
     public void onStartGameButtonClick(javafx.event.ActionEvent event) {
         if(player1Name.getText().isEmpty() || player2Name.getText().isEmpty()) {
-            System.out.println("Please enter both player names");
+            Logger.error("Please enter both player names");
             return;
         }
 

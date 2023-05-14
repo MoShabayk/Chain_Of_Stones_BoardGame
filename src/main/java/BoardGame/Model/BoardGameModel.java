@@ -2,6 +2,7 @@ package BoardGame.Model;
 
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import org.tinylog.Logger;
 
 public class BoardGameModel {
 
@@ -42,6 +43,26 @@ public class BoardGameModel {
     public Square getSquare(int i, int j) {
         return board[i][j].get();
     }
+    public boolean canMove(int fromRow, int fromCol, int toRow, int toCol){
+        var fromSquare = board[fromRow][fromCol];
+        var toSquare = board[toRow][toCol];
+        var fromPiece = fromSquare.get();
+        var toPiece = toSquare.get();
+        if (fromPiece == Square.NONE || toPiece != Square.NONE) {
+            // illegal move, either fromSquare is empty or toSquare is occupied
+            Logger.info("Illegal move");
+            return false;
+        }
+        // check if the move is vertical or horizontal and make sure it is only one square away
+        if ((Math.abs(fromRow - toRow) == 1 && fromCol == toCol) || (Math.abs(fromCol - toCol) == 1 && fromRow == toRow)) {
+            // Only allow the move if it's the current player's turn
+            if ((currentPlayer == 1 && fromPiece == Square.RED) || (currentPlayer == 2 && fromPiece == Square.BLUE)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public void move(int fromRow, int fromCol, int toRow, int toCol) {
         var fromSquare = board[fromRow][fromCol];
@@ -49,26 +70,10 @@ public class BoardGameModel {
         var fromPiece = fromSquare.get();
         var toPiece = toSquare.get();
 
-        if (fromPiece == Square.NONE || toPiece != Square.NONE) {
-            // illegal move, either fromSquare is empty or toSquare is occupied
-            System.out.println("Illegal move");
-            return;
-        }
-
-        // check if the move is vertical or horizontal and make sure it is only one square away
-        if ((Math.abs(fromRow - toRow) == 1 && fromCol == toCol) || (Math.abs(fromCol - toCol) == 1 && fromRow == toRow)) {
-            // Only allow the move if it's the current player's turn
-            if ((currentPlayer == 1 && fromPiece == Square.RED) || (currentPlayer == 2 && fromPiece == Square.BLUE)) {
-                fromSquare.set(Square.NONE);
-                toSquare.set(fromPiece);
-                // Switch to the other player's turn
-                currentPlayer = currentPlayer == 1 ? 2 : 1;
-            } else {
-                System.out.println("It's not your turn!");
-            }
-        } else {
-            System.out.println("Invalid move");
-        }
+        toSquare.set(fromPiece);
+        fromSquare.set(Square.NONE);
+        // Change the current player
+        currentPlayer = currentPlayer == 1 ? 2 : 1;
     }
 
     // Get the current player's turn
@@ -88,7 +93,7 @@ public class BoardGameModel {
     }
     public static void main(String[] args) {
         var model = new BoardGameModel();
-        System.out.println(model);
+        Logger.info(model);
     }
 
     public boolean check_win(Square player) {

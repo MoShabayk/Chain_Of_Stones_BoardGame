@@ -107,7 +107,7 @@ public class BoardGameController {
         var square = (StackPane) event.getSource();
         var row = GridPane.getRowIndex(square);
         var col = GridPane.getColumnIndex(square);
-        Logger.info("Click on square (%d,%d)%n", row, col);
+        Logger.info("Click on square ("+row+","+col+")");
 
         // If this is the first click (no tile is selected yet)
         if (selectedTile == null) {

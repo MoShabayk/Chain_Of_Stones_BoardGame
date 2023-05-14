@@ -15,18 +15,18 @@ public class BoardGameModel {
             for (int j = 0; j < BOARD_LENGTH; j++) {
                 if (i == 0) {
                     if (j % 2 == 0) {
-                        board[i][j] = new ReadOnlyObjectWrapper<>(Square.RED);
-                    } else {
                         board[i][j] = new ReadOnlyObjectWrapper<>(Square.BLUE);
+                    } else {
+                        board[i][j] = new ReadOnlyObjectWrapper<>(Square.RED);
                     }
                 } else {
                     board[i][j] = new ReadOnlyObjectWrapper<>(Square.NONE);
                 }
                 if (i == BOARD_WIDTH - 1) {
                     if (j % 2 == 0) {
-                        board[i][j] = new ReadOnlyObjectWrapper<>(Square.BLUE);
-                    } else {
                         board[i][j] = new ReadOnlyObjectWrapper<>(Square.RED);
+                    } else {
+                        board[i][j] = new ReadOnlyObjectWrapper<>(Square.BLUE);
                     }
                 }
             }

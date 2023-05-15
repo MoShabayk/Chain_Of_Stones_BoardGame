@@ -24,7 +24,6 @@ public class BoardGameScene1Controller {
 
     private BoardGameApplication application;
 
-
     public void setApplication(BoardGameApplication application) {
         this.application = application;
     }
@@ -37,7 +36,8 @@ public class BoardGameScene1Controller {
             Logger.error("Please enter both player names");
             return;
         }
+        application.goToGame(player1Name.getText(), player2Name.getText());
 
-        application.switchScene(application.scene2);
+        //application.switchScene(application.scene2);
     }
 }

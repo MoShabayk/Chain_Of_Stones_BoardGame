@@ -31,8 +31,6 @@ public class BoardGameModel {
                 }
             }
         }
-
-
     }
 
 
@@ -149,18 +147,28 @@ public class BoardGameModel {
     }
 
     public void resetBoard() {
-        for (var i = 0; i < BOARD_WIDTH; i++) {
-            for (var j = 0; j < BOARD_LENGTH; j++) {
-                if (i == 0 || i == BOARD_WIDTH - 1) {
+        for (int i = 0; i < BOARD_WIDTH; i++) {
+            for (int j = 0; j < BOARD_LENGTH; j++) {
+                if (i == 0) {
+                    if (j % 2 == 0) {
+                        board[i][j].set(Square.BLUE);
+                    } else {
+                        board[i][j].set(Square.RED);
+                    }
+                } else {
+                    board[i][j].set(Square.NONE);
+                }
+                if (i == BOARD_WIDTH - 1) {
                     if (j % 2 == 0) {
                         board[i][j].set(Square.RED);
                     } else {
                         board[i][j].set(Square.BLUE);
                     }
-                } else {
-                    board[i][j].set(Square.NONE);
                 }
             }
         }
+
     }
+
+
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="353.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BoardGame.BoardGameScene3Controller">
+   <Label layoutX="191.0" layoutY="22.0" prefHeight="74.0" prefWidth="218.0" text="LEADER BOARD" textAlignment="CENTER">
+      <font>
+         <Font size="30.0" />
+      </font>
+   </Label>
+   <ListView fx:id="matchListView" layoutX="27.0" layoutY="96.0" prefHeight="233.0" prefWidth="547.0" />
+</AnchorPane>

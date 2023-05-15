@@ -3,22 +3,25 @@ package BoardGame;
 import java.time.LocalDateTime;
 
 public class GameRecord {
-    private LocalDateTime startTime;
+    private String startTime;
     private String player1Name;
     private String player2Name;
     private String winnerName;
 
-    public GameRecord(LocalDateTime startTime, String player1Name, String player2Name, String winnerName) {
+    public GameRecord() {
+        // Default constructor for deserialization
+    }
+
+    public GameRecord(String startTime, String player1Name, String player2Name, String winnerName) {
         this.startTime = startTime;
         this.player1Name = player1Name;
         this.player2Name = player2Name;
-
         this.winnerName = winnerName;
     }
 
     // Getters and setters
 
-    public LocalDateTime getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
     public String getPlayer1Name() {
@@ -31,7 +34,7 @@ public class GameRecord {
     public String getWinnerName() {
         return winnerName;
     }
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
     public void setPlayer1Name(String player1Name) {

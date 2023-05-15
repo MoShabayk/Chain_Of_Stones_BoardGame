@@ -2,6 +2,8 @@ package BoardGame;
 
 import BoardGame.Model.BoardGameModel;
 import BoardGame.Model.Square;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.beans.binding.ObjectBinding;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -15,6 +17,8 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import org.tinylog.Logger;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +38,13 @@ public class BoardGameController {
     private Label player2ScoreLabel;
     @FXML
     private ListView<String> matchLogListView;
-    private List<GameRecord> gameRecords;
+    //private List<GameRecord> gameRecords;
+
+    @FXML
+    private Label labelPlayer1;
+    @FXML
+    private Label labelPlayer2;
+
 
     @FXML
     private AnchorPane anchorPane;
@@ -51,11 +61,18 @@ public class BoardGameController {
     }
 
     @FXML
-    private void initialize() {
+    public void setPlayerNames(String s1, String s2){
+        labelPlayer1.setText(s1);
+        labelPlayer2.setText(s2);
+    }
+
+    @FXML
+    public void initialize() {
+
 
        Logger.info(Model.toString());
 
-        gameRecords = new ArrayList<>();
+        //gameRecords = new ArrayList<>();
 
         for (var i = 0; i < board.getRowCount(); i++) {
             for (var j = 0; j < board.getColumnCount(); j++) {
@@ -63,6 +80,8 @@ public class BoardGameController {
                 board.add(square, j, i);
             }
         }
+
+
     }
 
     private StackPane createSquare(int i, int j) {
@@ -167,17 +186,24 @@ public class BoardGameController {
 
     public String getWinner() {
         if (Model.check_win(Square.BLUE)) {
-            return "Player 2 (Blue)";
+            return labelPlayer2.getText();
         }
         if (Model.check_win(Square.RED)) {
-            return "Player 1 (Red)";
+            return labelPlayer1.getText();
         }
         return null;
     }
     public void onRestartButtonClick(javafx.event.ActionEvent event) {
         board.setDisable(false);
-        addGameRecord(getWinner()); // Replace with the actual winner name
+        //addGameRecord(getWinner()); // Replace with the actual winner name
+        saveGameResult();
         Model.resetBoard();
+    }
+
+    public void onExitButtonClick(javafx.event.ActionEvent event){
+        saveGameResult();
+        application.goToLeaderBoard();
+
     }
 
     private void updateScoreAndMatchLog() {
@@ -186,13 +212,47 @@ public class BoardGameController {
         matchLogListView.getItems().setAll(scoreSystem.getMatchLog());
     }
 
-    private void addGameRecord(String winnerName) {
-        LocalDateTime startTime = LocalDateTime.now();
-        String player1Name = "Player 1"; // Replace with the actual player names
-        String player2Name = "Player 2"; // Replace with the actual player names
+//    private void addGameRecord(String winnerName) {
+//        String startTime = LocalDateTime.now().toString();
+//        String player1Name = labelPlayer1.getText();
+//        String player2Name = labelPlayer2.getText();
+//        GameRecord gameRecord = new GameRecord(startTime, player1Name, player2Name, winnerName);
+//        gameRecords.add(gameRecord);
+//    }
+
+    private void saveGameResult() {
+        ObjectMapper mapper = new ObjectMapper();
+        File file = new File("game_results.json");
+
+        // Read existing game results from the file, if any
+        List<GameRecord> gameResultsList;
+        if (file.exists()) {
+            try {
+                gameResultsList = mapper.readValue(file, new TypeReference<List<GameRecord>>() {});
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+        } else {
+            gameResultsList = new ArrayList<>();
+        }
+
+        // Add the current game result to the list
+        String startTime = LocalDateTime.now().toString();
+        String player1Name = labelPlayer1.getText();
+        String player2Name = labelPlayer2.getText();
+        String winnerName = getWinner();
         GameRecord gameRecord = new GameRecord(startTime, player1Name, player2Name, winnerName);
-        gameRecords.add(gameRecord);
+        gameResultsList.add(gameRecord);
+
+        // Write the updated list back to the file
+        try {
+            mapper.writeValue(file, gameResultsList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
 
 

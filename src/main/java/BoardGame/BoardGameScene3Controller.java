@@ -1,6 +1,7 @@
 package BoardGame;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,11 +16,21 @@ import java.util.*;
 public class BoardGameScene3Controller {
     @FXML
     private ListView<String> matchListView;
+    private BoardGameApplication application;
+
 
     public void initialize() {
         loadGameRecords();
     }
 
+    public void setApplication(BoardGameApplication application) {
+        this.application = application;
+    }
+
+    @FXML
+    void handleExitGameButtonClick(ActionEvent event){
+        System.exit(0);
+    }
     private void loadGameRecords() {
         ObjectMapper mapper = new ObjectMapper();
 

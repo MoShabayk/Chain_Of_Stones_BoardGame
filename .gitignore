@@ -14,6 +14,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+game_results.json
 
 # External tool builders
 .externalToolBuilders/

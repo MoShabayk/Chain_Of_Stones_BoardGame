@@ -14,17 +14,20 @@ public class BoardGameApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.stage = primaryStage;
-
-        // Load the first FXML file and create its controller
-        FXMLLoader loader1 = new FXMLLoader(getClass().getClassLoader().getResource("uiScene1.fxml"));
-        Parent root1 = loader1.load();
-        BoardGameScene1Controller controller1 = loader1.getController();
-        controller1.setApplication(this);
-        // Show the first scene
-        primaryStage.setScene(new Scene(root1));
-        primaryStage.show();
+        try {
+            // Load the first FXML file and create its controller
+            FXMLLoader loader1 = new FXMLLoader(getClass().getClassLoader().getResource("uiScene1.fxml"));
+            Parent root1 = loader1.load();
+            BoardGameScene1Controller controller1 = loader1.getController();
+            controller1.setApplication(this);
+            // Show the first scene
+            primaryStage.setScene(new Scene(root1));
+            primaryStage.show();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-
     public void goToGame(String player1Name, String player2Name)
     {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("ui.fxml"));
@@ -41,12 +44,13 @@ public class BoardGameApplication extends Application {
             throw new RuntimeException(e);
         }
     }
-
     public void goToLeaderBoard()
     {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("uiScene3.fxml"));
         try {
             Parent root = loader.load();
+            BoardGameScene3Controller boardGameScene3Controller = loader.getController();
+            boardGameScene3Controller.setApplication(this);
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();

@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.beans.binding.ObjectBinding;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -17,7 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import org.tinylog.Logger;
-
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -25,36 +23,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoardGameController {
-
     @FXML
     private GridPane board;
-
     private BoardGameApplication application;
-
-    private final ScoreSystem scoreSystem;
-
-    @FXML
-    private Label player1ScoreLabel;
-    @FXML
-    private Label player2ScoreLabel;
-    @FXML
-    private ListView<String> matchLogListView;
     @FXML
     private Label labelPlayer1;
     @FXML
     private Label labelPlayer2;
-
     private BoardGameModel Model = new BoardGameModel();
     private StackPane previouslySelectedSquare = null;
     private BoardGameMoveSelector selector = new BoardGameMoveSelector(Model);
 
-    public BoardGameController() {
-        scoreSystem = new ScoreSystem();
-    }
     public void setApplication(BoardGameApplication application) {
         this.application = application;
     }
-
     @FXML
     public void setPlayerNames(String s1, String s2){
         labelPlayer1.setText(s1);
@@ -70,7 +52,6 @@ public class BoardGameController {
             }
         }
     }
-
     private StackPane createSquare(int i, int j) {
         var square = new StackPane();
         square.getStyleClass().add("square");
@@ -95,8 +76,6 @@ public class BoardGameController {
         square.setOnMouseClicked(this::handleMouseClick);
         return square;
     }
-
-
     @FXML
     private void handleMouseClick(MouseEvent event) {
         var square = (StackPane) event.getSource();
@@ -134,41 +113,10 @@ public class BoardGameController {
             if (previouslySelectedSquare != null) {
                 previouslySelectedSquare.getStyleClass().remove("square-clicked");
             }
-            checkWin();
+            Model.checkWin();
+            if (Model.checkWin())
+                board.setDisable(true);
         }
-    }
-
-
-
-
-    public boolean checkWin() {
-        if (Model.check_win(Square.BLUE)) {
-            Logger.info("Blue wins!");
-            scoreSystem.addPlayer2Score(); // Blue is Player 2
-            scoreSystem.addMatchLog("Player 2 (Blue) won the game.");
-            updateScoreAndMatchLog();
-            board.setDisable(true);
-            return true;
-        }
-        if (Model.check_win(Square.RED)) {
-            Logger.info("Red wins!");
-            scoreSystem.addPlayer1Score(); // Red is Player 1
-            scoreSystem.addMatchLog("Player 1 (Red) won the game.");
-            updateScoreAndMatchLog();
-            board.setDisable(true);
-            return true;
-        }
-        return false;
-    }
-
-    public String getWinner() {
-        if (Model.check_win(Square.BLUE)) {
-            return labelPlayer2.getText();
-        }
-        if (Model.check_win(Square.RED)) {
-            return labelPlayer1.getText();
-        }
-        return null;
     }
     public void onRestartButtonClick(javafx.event.ActionEvent event) {
         board.setDisable(false);
@@ -176,18 +124,10 @@ public class BoardGameController {
         saveGameResult();
         Model.initializeBoard();
     }
-
     public void onExitButtonClick(javafx.event.ActionEvent event){
         saveGameResult();
         application.goToLeaderBoard();
     }
-
-    private void updateScoreAndMatchLog() {
-        player1ScoreLabel.setText("Player 1: " + scoreSystem.getPlayer1Score());
-        player2ScoreLabel.setText("Player 2: " + scoreSystem.getPlayer2Score());
-        matchLogListView.getItems().setAll(scoreSystem.getMatchLog());
-    }
-
     private void saveGameResult() {
         ObjectMapper mapper = new ObjectMapper();
         File file = new File("game_results.json");
@@ -209,8 +149,10 @@ public class BoardGameController {
         String startTime = LocalDateTime.now().toString();
         String player1Name = labelPlayer1.getText();
         String player2Name = labelPlayer2.getText();
-        String winnerName = getWinner();
-        GameRecord gameRecord = new GameRecord(startTime, player1Name, player2Name, winnerName);
+        String winnerName = Model.getWinner(player1Name, player2Name);
+        int player1turns = Model.player1turns;
+        int player2turns = Model.player2turns;
+        GameRecord gameRecord = new GameRecord(startTime, player1Name, player2Name, winnerName, player1turns, player2turns);
         gameResultsList.add(gameRecord);
 
         // Write the updated list back to the file

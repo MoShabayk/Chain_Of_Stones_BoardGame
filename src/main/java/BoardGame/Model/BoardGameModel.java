@@ -10,7 +10,9 @@ public class BoardGameModel {
     public static final int BOARD_LENGTH = 4;
     private final ReadOnlyObjectWrapper<Square>[][] board = new ReadOnlyObjectWrapper[BOARD_WIDTH][BOARD_LENGTH];
     private  int currentPlayer = 1;
-    private Position selectedPosition = null;
+
+    public int player1turns = 0;
+    public int player2turns = 0;
     public BoardGameModel() {
         initializeBoard();
     }
@@ -34,6 +36,11 @@ public class BoardGameModel {
                 }
             }
         }
+        // set the current player to 1
+        currentPlayer = 1;
+        // reset the number of turns
+        player1turns = 0;
+        player2turns = 0;
     }
     private void setSquare(Position p, Square square) {
         board[p.row()][p.col()].set(square);
@@ -52,8 +59,6 @@ public class BoardGameModel {
         return board[p.row()][p.col()].get();
     }
     public boolean canMove(Position from, Position to){
-//        var fromSquare = board[from.row()][from.col()];
-//        var toSquare = board[to.row()][to.col()];
         var fromPiece = getSquare(from);
         var toPiece = getSquare(to);
         if (fromPiece == Square.NONE || toPiece != Square.NONE) {
@@ -68,15 +73,16 @@ public class BoardGameModel {
         }
         return false;
     }
-
     public void move(Position from, Position to) {
-//        var fromSquare = board[fromRow][fromCol];
-//        var toSquare = board[toRow][toCol];
-//        var fromPiece = fromSquare.get();
-//        var toPiece = toSquare.get();
-
+        // Move the piece
         setSquare(to, getSquare(from));
         setSquare(from, Square.NONE);
+        // Increment the turn counter
+        if (currentPlayer == 1) {
+            player1turns++;
+        } else {
+            player2turns++;
+        }
         // Change the current player
         currentPlayer = currentPlayer == 1 ? 2 : 1;
     }
@@ -96,7 +102,29 @@ public class BoardGameModel {
         Logger.info(model);
     }
 
-    public boolean check_win(Square player) {
+    public String getWinner(String labelPlayer1, String labelPlayer2) {
+        if (check_triplets(Square.BLUE)) {
+            return labelPlayer2;
+        }
+        if (check_triplets(Square.RED)) {
+            return labelPlayer1;
+        }
+        return null;
+    }
+    public boolean checkWin() {
+        if (check_triplets(Square.BLUE)) {
+            Logger.info("Blue wins!");
+            Logger.info("Player 2 (Blue) won the game.");
+            return true;
+        }
+        if (check_triplets(Square.RED)) {
+            Logger.info("Red wins!");
+            Logger.info("Player 1 (Red) won the game.");
+            return true;
+        }
+        return false;
+    }
+    public boolean check_triplets(Square player) {
         // Check rows
         for (int row = 0; row < BOARD_WIDTH; row++) {
             boolean win = true;
@@ -149,3 +177,4 @@ public class BoardGameModel {
         return false;
     }
 }
+

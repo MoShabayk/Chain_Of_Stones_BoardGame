@@ -7,7 +7,6 @@ import org.tinylog.Logger;
 public class BoardGameScene1Controller {
     @FXML
     private TextField player1Name;
-
     @FXML
     private  TextField player2Name;
 
@@ -16,9 +15,6 @@ public class BoardGameScene1Controller {
     public void setApplication(BoardGameApplication application) {
         this.application = application;
     }
-
-
-
     @FXML
     public void onStartGameButtonClick(javafx.event.ActionEvent event) {
         if(player1Name.getText().isEmpty() || player2Name.getText().isEmpty()) {
@@ -26,7 +22,5 @@ public class BoardGameScene1Controller {
             return;
         }
         application.goToGame(player1Name.getText(), player2Name.getText());
-
-        //application.switchScene(application.scene2);
     }
 }

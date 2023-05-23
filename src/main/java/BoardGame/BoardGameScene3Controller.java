@@ -4,11 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.beans.binding.ObjectBinding;
 
 
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -17,12 +15,6 @@ import java.util.*;
 public class BoardGameScene3Controller {
     @FXML
     private ListView<String> matchListView;
-
-    private BoardGameApplication application;
-
-    public void setApplication(BoardGameApplication application) {
-        this.application = application;
-    }
 
     public void initialize() {
         loadGameRecords();

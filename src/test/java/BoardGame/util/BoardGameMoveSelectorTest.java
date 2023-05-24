@@ -41,14 +41,16 @@ class BoardGameMoveSelectorTest {
     void getFrom() {
         selector.select(new Position(0, 1));
         assertEquals(new Position(0, 1), selector.getFrom());
+        selector.reset();
         assertThrows(IllegalStateException.class, selector::getFrom);
     }
 
     @Test
     void getTo() {
-        selector.select(new Position(0, 0));
-        selector.select(new Position(1, 0));
-        assertEquals(new Position(1, 0), selector.getTo());
+        selector.select(new Position(0, 1));
+        selector.select(new Position(1, 1));
+        assertEquals(new Position(1, 1), selector.getTo());
+        selector.reset();
         assertThrows(IllegalStateException.class, selector::getTo);
     }
 }

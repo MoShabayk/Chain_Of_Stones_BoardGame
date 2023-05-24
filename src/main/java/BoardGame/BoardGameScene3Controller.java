@@ -1,13 +1,11 @@
 package BoardGame;
 
+import BoardGame.Model.GameRecord;
 import com.fasterxml.jackson.core.type.TypeReference;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,15 +14,9 @@ import java.util.*;
 public class BoardGameScene3Controller {
     @FXML
     private ListView<String> matchListView;
-    private BoardGameApplication application;
-
 
     public void initialize() {
         loadGameRecords();
-    }
-
-    public void setApplication(BoardGameApplication application) {
-        this.application = application;
     }
 
     @FXML
@@ -66,6 +58,4 @@ public class BoardGameScene3Controller {
             e.printStackTrace();
         }
     }
-
-
 }

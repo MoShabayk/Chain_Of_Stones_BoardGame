@@ -1,4 +1,4 @@
-package BoardGame;
+package BoardGame.Model;
 
 public class GameRecord {
     private int player1turns;
@@ -68,8 +68,8 @@ public class GameRecord {
                 ", player1Name='" + player1Name + '\'' +
                 ", player2Name='" + player2Name + '\'' +
                 ", winnerName='" + winnerName + '\'' +
-                ", player1turns=" + player1turns +'\'' +
-                ", player2turns=" + player2turns + '\'' +
+                ", player1turns=" + player1turns +
+                ", player2turns=" + player2turns +
                 '}';
     }
 

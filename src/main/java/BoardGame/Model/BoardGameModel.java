@@ -10,7 +10,6 @@ public class BoardGameModel {
     public static final int BOARD_LENGTH = 4;
     private final ReadOnlyObjectWrapper<Square>[][] board = new ReadOnlyObjectWrapper[BOARD_WIDTH][BOARD_LENGTH];
     private  int currentPlayer = 1;
-
     public int player1turns = 0;
     public int player2turns = 0;
     public BoardGameModel() {
@@ -103,28 +102,28 @@ public class BoardGameModel {
     }
 
     public String getWinner(String labelPlayer1, String labelPlayer2) {
-        if (check_triplets(Square.BLUE)) {
+        if (check_quadruplets(Square.BLUE)) {
             return labelPlayer2;
         }
-        if (check_triplets(Square.RED)) {
+        if (check_quadruplets(Square.RED)) {
             return labelPlayer1;
         }
         return null;
     }
     public boolean checkWin() {
-        if (check_triplets(Square.BLUE)) {
+        if (check_quadruplets(Square.BLUE)) {
             Logger.info("Blue wins!");
             Logger.info("Player 2 (Blue) won the game.");
             return true;
         }
-        if (check_triplets(Square.RED)) {
+        if (check_quadruplets(Square.RED)) {
             Logger.info("Red wins!");
             Logger.info("Player 1 (Red) won the game.");
             return true;
         }
         return false;
     }
-    public boolean check_triplets(Square player) {
+    public boolean check_quadruplets(Square player) {
         // Check rows
         for (int row = 0; row < BOARD_WIDTH; row++) {
             boolean win = true;

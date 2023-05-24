@@ -1,13 +1,13 @@
 package BoardGame;
 
-import BoardGame.Model.BoardGameModel;
-import BoardGame.Model.Position;
-import BoardGame.Model.Square;
+import BoardGame.Model.*;
 import BoardGame.util.BoardGameMoveSelector;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.beans.binding.ObjectBinding;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -15,17 +15,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import org.tinylog.Logger;
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 public class BoardGameController {
     @FXML
     private GridPane board;
-    private BoardGameApplication application;
     @FXML
     private Label labelPlayer1;
     @FXML
@@ -34,9 +30,8 @@ public class BoardGameController {
     private StackPane previouslySelectedSquare = null;
     private BoardGameMoveSelector selector = new BoardGameMoveSelector(Model);
 
-    public void setApplication(BoardGameApplication application) {
-        this.application = application;
-    }
+    private GameRecordsManager gameRecordsManager = new GameRecordsManager();
+
     @FXML
     public void setPlayerNames(String s1, String s2){
         labelPlayer1.setText(s1);
@@ -120,32 +115,8 @@ public class BoardGameController {
     }
     public void onRestartButtonClick(javafx.event.ActionEvent event) {
         board.setDisable(false);
-        //addGameRecord(getWinner()); // Replace with the actual winner name
-        saveGameResult();
-        Model.initializeBoard();
-    }
-    public void onExitButtonClick(javafx.event.ActionEvent event){
-        saveGameResult();
-        application.goToLeaderBoard();
-    }
-    private void saveGameResult() {
-        ObjectMapper mapper = new ObjectMapper();
-        File file = new File("game_results.json");
 
-        // Read existing game results from the file, if any
-        List<GameRecord> gameResultsList;
-        if (file.exists()) {
-            try {
-                gameResultsList = mapper.readValue(file, new TypeReference<List<GameRecord>>() {});
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
-            }
-        } else {
-            gameResultsList = new ArrayList<>();
-        }
-
-        // Add the current game result to the list
+        //Add the current game result to the list
         String startTime = LocalDateTime.now().toString();
         String player1Name = labelPlayer1.getText();
         String player2Name = labelPlayer2.getText();
@@ -153,13 +124,24 @@ public class BoardGameController {
         int player1turns = Model.player1turns;
         int player2turns = Model.player2turns;
         GameRecord gameRecord = new GameRecord(startTime, player1Name, player2Name, winnerName, player1turns, player2turns);
-        gameResultsList.add(gameRecord);
 
-        // Write the updated list back to the file
-        try {
-            mapper.writeValue(file, gameResultsList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        GameRecordsManager.saveGameResult(gameRecord);
+        Model.initializeBoard();
+    }
+    public void onGoToLeaderBoardClick(javafx.event.ActionEvent event) throws IOException {
+        String startTime = LocalDateTime.now().toString();
+        String player1Name = labelPlayer1.getText();
+        String player2Name = labelPlayer2.getText();
+        String winnerName = Model.getWinner(player1Name, player2Name);
+        int player1turns = Model.player1turns;
+        int player2turns = Model.player2turns;
+        GameRecord gameRecord = new GameRecord(startTime, player1Name, player2Name, winnerName, player1turns, player2turns);
+
+        gameRecordsManager.saveGameResult(gameRecord);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("uiScene3.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

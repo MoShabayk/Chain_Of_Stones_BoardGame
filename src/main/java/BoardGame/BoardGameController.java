@@ -132,6 +132,7 @@ public class BoardGameController {
         int player1turns = Model.player1turns;
         int player2turns = Model.player2turns;
         GameRecord gameRecord = new GameRecord(player1turns,player2turns,startTime,player1Name,player2Name,winnerName);
+        System.out.println(gameRecord.toString());
 
         GameRecordsManager.saveGameResult(gameRecord);
         Model.initializeBoard();

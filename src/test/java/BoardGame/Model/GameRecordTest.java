@@ -11,12 +11,12 @@ class GameRecordTest {
 
     @BeforeEach
     void setUp() {
-        gameRecord = new GameRecord("2023-05-24 10:00:00", "Mohamed", "Mahmoud", "Mohamed", 10, 9);
+        gameRecord = new GameRecord(10, 9, "2023-05-28T15:47:07.489834600", "Mohamed", "Mahmoud", "Mohamed");
     }
 
     @Test
     void getStartTime() {
-        assertEquals("2023-05-24 10:00:00", gameRecord.getStartTime());
+        assertEquals("2023-05-28T15:47:07.489834600", gameRecord.getStartTime());
     }
 
     @Test
@@ -46,7 +46,7 @@ class GameRecordTest {
 
     @Test
     void testToString() {
-        String expected = "GameRecord{startTime=2023-05-24 10:00:00, player1Name='Mohamed', player2Name='Mahmoud', winnerName='Mohamed', player1turns=10, player2turns=9}";
+        String expected = "GameRecord(player1turns=10, player2turns=9, startTime=2023-05-28T15:47:07.489834600, player1Name=Mohamed, player2Name=Mahmoud, winnerName=Mohamed)";
         assertEquals(expected, gameRecord.toString());
     }
 }

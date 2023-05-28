@@ -131,7 +131,7 @@ public class BoardGameController {
         String winnerName = Model.getWinner(player1Name, player2Name);
         int player1turns = Model.player1turns;
         int player2turns = Model.player2turns;
-        GameRecord gameRecord = new GameRecord(startTime, player1Name, player2Name, winnerName, player1turns, player2turns);
+        GameRecord gameRecord = new GameRecord(player1turns,player2turns,startTime,player1Name,player2Name,winnerName);
 
         GameRecordsManager.saveGameResult(gameRecord);
         Model.initializeBoard();
@@ -143,7 +143,7 @@ public class BoardGameController {
         String winnerName = Model.getWinner(player1Name, player2Name);
         int player1turns = Model.player1turns;
         int player2turns = Model.player2turns;
-        GameRecord gameRecord = new GameRecord(startTime, player1Name, player2Name, winnerName, player1turns, player2turns);
+        GameRecord gameRecord = new GameRecord(player1turns, player2turns, startTime, player1Name, player2Name, winnerName);
 
         gameRecordsManager.saveGameResult(gameRecord);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

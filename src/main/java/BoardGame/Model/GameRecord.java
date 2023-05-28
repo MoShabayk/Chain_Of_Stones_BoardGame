@@ -13,5 +13,5 @@ public class GameRecord {
     @NonNull private String startTime;
     @NonNull  private String player1Name;
     @NonNull private String player2Name;
-    @NonNull private String winnerName;
+     private String winnerName;
 }

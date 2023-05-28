@@ -2,7 +2,6 @@ package BoardGame.Model;
 
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.scene.control.Alert;
 import org.tinylog.Logger;
 
 public class BoardGameModel {

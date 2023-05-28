@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -109,8 +110,15 @@ public class BoardGameController {
                 previouslySelectedSquare.getStyleClass().remove("square-clicked");
             }
             Model.checkWin();
-            if (Model.checkWin())
+            if (Model.checkWin()) {
                 board.setDisable(true);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Winner");
+                alert.setHeaderText(null);
+                String winnerName = Model.getWinner(labelPlayer1.getText(), labelPlayer2.getText());
+                alert.setContentText(String.format("%s wins!", winnerName));
+                alert.showAndWait();
+            }
         }
     }
     public void onRestartButtonClick(javafx.event.ActionEvent event) {

@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Handles the management of game records.
@@ -39,16 +39,21 @@ public class GameRecordsManager {
      * Retrieves the player wins as a map of player names to the number of wins.
      * @return the map of player names to the number of wins
      */
-    public Map<String, Long> getPlayerWins() {
-        return gameRecordList.stream()
-                .collect(Collectors.groupingBy(GameRecord::getWinnerName, Collectors.counting()));
+    public Map<String, Integer> getPlayerWins() {
+        Map<String, Integer> playerWinsMap = new HashMap<>();
+
+        for (GameRecord record : gameRecordList) {
+            String winnerName = record.getWinnerName();
+            playerWinsMap.put(winnerName, playerWinsMap.getOrDefault(winnerName, 0) + 1);
+        }
+        return playerWinsMap;
     }
 
     /**
      * Loads the game results from the file.
      * @return the list of game records
      */
-    private List<GameRecord> loadGameResults() {
+    public List<GameRecord> loadGameResults() {
         ObjectMapper mapper = new ObjectMapper();
         File file = new File(FILE_NAME);
 

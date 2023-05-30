@@ -200,7 +200,6 @@ public class BoardGameModel {
         for (int row = 0; row < BOARD_WIDTH; row++) {
             boolean win = true;
             for (int col = 0; col < BOARD_LENGTH; col++) {
-
                 if (getSquare(new Position(row, col)) != player) {
                     win = false;
                     break;
@@ -208,24 +207,24 @@ public class BoardGameModel {
             }
             if (win) return true;
         }
-
         // Check columns
         for (int col = 0; col < BOARD_LENGTH; col++) {
-            boolean win = true;
-            for (int row = 0; row < BOARD_WIDTH; row++) {
-                if (getSquare(new Position(row, col)) != player) {
-                    win = false;
-                    break;
+            for (int row = 0; row < BOARD_WIDTH - 3; row++) {
+                boolean win = true;
+                for (int i = 0; i < 4; i++) {
+                    if (getSquare(new Position(row + i, col)) != player) {
+                        win = false;
+                        break;
+                    }
                 }
+                if (win) return true;
             }
-            if (win) return true;
         }
-
         // Check major diagonals (top-left to bottom-right)
         for (int row = 0; row < BOARD_WIDTH - 3; row++) {
             for (int col = 0; col < BOARD_LENGTH - 3; col++) {
                 if (getSquare(new Position(row, col)) == player
-                        && getSquare(new Position(row +1, col + 1)) == player
+                        && getSquare(new Position(row + 1, col + 1)) == player
                         && getSquare(new Position(row + 2, col + 2)) == player
                         && getSquare(new Position(row + 3, col + 3)) == player) {
                     return true;
@@ -247,5 +246,6 @@ public class BoardGameModel {
 
         return false;
     }
+
 }
 

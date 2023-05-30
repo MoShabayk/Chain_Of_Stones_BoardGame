@@ -1,7 +1,6 @@
 // GameResultsManager.java
 package BoardGame.Model;
 
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
@@ -11,6 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Handles the management of game records.
+ * It allows saving and loading game results, as well as retrieving player wins.
+ */
 public class GameRecordsManager {
     private static List<GameRecord> gameRecordList;
     private static final String FILE_NAME = "game_results.json";
@@ -51,7 +54,8 @@ public class GameRecordsManager {
 
         if (file.exists()) {
             try {
-                return mapper.readValue(file, new TypeReference<List<GameRecord>>() {});
+                return mapper.readValue(file, new TypeReference<>() {
+                });
             } catch (IOException e) {
                 e.printStackTrace();
             }

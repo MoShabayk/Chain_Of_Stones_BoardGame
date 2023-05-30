@@ -4,6 +4,10 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import org.tinylog.Logger;
 
+/**
+ * Represents the model of a board game.
+ * It manages the game board, player turns, and game logic.
+ */
 public class BoardGameModel {
 
     public static final int BOARD_WIDTH = 5;

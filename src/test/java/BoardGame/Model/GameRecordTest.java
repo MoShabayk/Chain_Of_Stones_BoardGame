@@ -13,7 +13,6 @@ class GameRecordTest {
     void setUp() {
         gameRecord = new GameRecord(10, 9, "2023-05-28T15:47:07.489834600", "Mohamed", "Mahmoud", "Mohamed");
     }
-
     @Test
     void getStartTime() {
         assertEquals("2023-05-28T15:47:07.489834600", gameRecord.getStartTime());
@@ -49,4 +48,14 @@ class GameRecordTest {
         String expected = "GameRecord(player1turns=10, player2turns=9, startTime=2023-05-28T15:47:07.489834600, player1Name=Mohamed, player2Name=Mahmoud, winnerName=Mohamed)";
         assertEquals(expected, gameRecord.toString());
     }
+
+    @Test
+    void testEquals() {
+        GameRecord gameRecord1 = new GameRecord(10, 9, "2023-05-28T15:47:07.489834600", "Mohamed", "Mahmoud", "Mohamed");
+        assertEquals(gameRecord, gameRecord1);
+
+        GameRecord gameRecord2 = new GameRecord(10, 9, "2023-05-28T15:47:07.489834600", "John", "Doe", "John");
+        assertNotEquals(gameRecord, gameRecord2);
+    }
+
 }

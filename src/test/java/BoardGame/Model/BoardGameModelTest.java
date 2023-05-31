@@ -80,23 +80,23 @@ class BoardGameModelTest {
     }
 
     @Test
-    void check_quadruplets() {
-        assertFalse(model.check_quadruplets(Square.RED), "Expected Red not to have a winning quadruplets.");
-        assertFalse(model.check_quadruplets(Square.BLUE), "Expected Blue not to have a winning quadruplets.");
+    void check_triplets() {
+        assertFalse(model.check_triplets(Square.RED), "Expected Red not to have a winning quadruplets.");
+        assertFalse(model.check_triplets(Square.BLUE), "Expected Blue not to have a winning quadruplets.");
         model.move(new Position(0, 1), new Position(1, 1));
         model.move(new Position(1, 1), new Position(1, 2));
         model.move(new Position(4, 0), new Position(3, 0));
         model.move(new Position(4, 2), new Position(3, 2));
         model.move(new Position(3, 2), new Position(3, 1));
         model.move(new Position(3, 1), new Position(2, 1));
-        assertTrue(model.check_quadruplets(Square.RED), "Expected Red to have a winning quadruplets.");
-        assertFalse(model.check_quadruplets(Square.BLUE), "Expected Blue not to have a winning quadruplets.");
+        assertTrue(model.check_triplets(Square.RED), "Expected Red to have a winning quadruplets.");
+        assertFalse(model.check_triplets(Square.BLUE), "Expected Blue not to have a winning quadruplets.");
 
         model.initializeBoard();
         model.move(new Position(0, 0), new Position(1, 0));
         model.move(new Position(4, 1), new Position(2, 1));
         model.move(new Position(0, 2), new Position(3, 2));
-        assertTrue(model.check_quadruplets(Square.BLUE), "Expected Blue to have a winning quadruplets.");
-        assertFalse(model.check_quadruplets(Square.RED), "Expected Red not to have a winning quadruplets.");
+        assertTrue(model.check_triplets(Square.BLUE), "Expected Blue to have a winning quadruplets.");
+        assertFalse(model.check_triplets(Square.RED), "Expected Red not to have a winning quadruplets.");
     }
 }

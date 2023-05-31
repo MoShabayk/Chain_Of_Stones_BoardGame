@@ -161,10 +161,10 @@ public class BoardGameModel {
      * @return the label of the winning player, or null if there is no winner yet
      */
     public String getWinner(String labelPlayer1, String labelPlayer2) {
-        if (check_quadruplets(Square.BLUE)) {
+        if (check_triplets(Square.BLUE)) {
             return labelPlayer2;
         }
-        if (check_quadruplets(Square.RED)) {
+        if (check_triplets(Square.RED)) {
             return labelPlayer1;
         }
         return null;
@@ -176,12 +176,12 @@ public class BoardGameModel {
      * @return true if there is a winner, false otherwise
      */
     public boolean checkWin() {
-        if (check_quadruplets(Square.BLUE)) {
+        if (check_triplets(Square.BLUE)) {
             Logger.info("Blue wins!");
             Logger.info("Player 2 (Blue) won the game.");
             return true;
         }
-        if (check_quadruplets(Square.RED)) {
+        if (check_triplets(Square.RED)) {
             Logger.info("Red wins!");
             Logger.info("Player 1 (Red) won the game.");
             return true;
@@ -195,23 +195,26 @@ public class BoardGameModel {
      * @param player the player to check for quadruplets
      * @return true if there are quadruplets of the player, false otherwise
      */
-    public boolean check_quadruplets(Square player) {
+    public boolean check_triplets(Square player) {
         // Check rows
         for (int row = 0; row < BOARD_WIDTH; row++) {
-            boolean win = true;
-            for (int col = 0; col < BOARD_LENGTH; col++) {
-                if (getSquare(new Position(row, col)) != player) {
-                    win = false;
-                    break;
+            for (int col = 0; col < BOARD_LENGTH - 2; col++) {
+                boolean win = true;
+                for (int i = 0; i < 3; i++) {
+                    if (getSquare(new Position(row, col + i)) != player) {
+                        win = false;
+                        break;
+                    }
                 }
+                if (win) return true;
             }
-            if (win) return true;
         }
+
         // Check columns
         for (int col = 0; col < BOARD_LENGTH; col++) {
-            for (int row = 0; row < BOARD_WIDTH - 3; row++) {
+            for (int row = 0; row < BOARD_WIDTH - 2; row++) {
                 boolean win = true;
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < 3; i++) {
                     if (getSquare(new Position(row + i, col)) != player) {
                         win = false;
                         break;
@@ -220,25 +223,24 @@ public class BoardGameModel {
                 if (win) return true;
             }
         }
+
         // Check major diagonals (top-left to bottom-right)
-        for (int row = 0; row < BOARD_WIDTH - 3; row++) {
-            for (int col = 0; col < BOARD_LENGTH - 3; col++) {
+        for (int row = 0; row < BOARD_WIDTH - 2; row++) {
+            for (int col = 0; col < BOARD_LENGTH - 2; col++) {
                 if (getSquare(new Position(row, col)) == player
                         && getSquare(new Position(row + 1, col + 1)) == player
-                        && getSquare(new Position(row + 2, col + 2)) == player
-                        && getSquare(new Position(row + 3, col + 3)) == player) {
+                        && getSquare(new Position(row + 2, col + 2)) == player) {
                     return true;
                 }
             }
         }
 
         // Check minor diagonals (bottom-left to top-right)
-        for (int row = 3; row < BOARD_WIDTH; row++) {
-            for (int col = 0; col < BOARD_LENGTH - 3; col++) {
+        for (int row = 2; row < BOARD_WIDTH; row++) {
+            for (int col = 0; col < BOARD_LENGTH - 2; col++) {
                 if (getSquare(new Position(row, col)) == player
                         && getSquare(new Position(row - 1, col + 1)) == player
-                        && getSquare(new Position(row - 2, col + 2)) == player
-                        && getSquare(new Position(row - 3, col + 3)) == player) {
+                        && getSquare(new Position(row - 2, col + 2)) == player) {
                     return true;
                 }
             }
@@ -246,6 +248,7 @@ public class BoardGameModel {
 
         return false;
     }
+
 
 }
 

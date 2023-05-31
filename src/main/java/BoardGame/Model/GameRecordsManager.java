@@ -36,8 +36,7 @@ public class GameRecordsManager {
     }
 
     /**
-     * Retrieves the player wins as a map of player names to the number of wins.
-     * @return the map of player names to the number of wins
+     * {@return the map of player names to the number of wins}
      */
     public Map<String, Integer> getPlayerWins() {
         Map<String, Integer> playerWinsMap = new HashMap<>();
@@ -50,8 +49,7 @@ public class GameRecordsManager {
     }
 
     /**
-     * Loads the game results from the file.
-     * @return the list of game records
+     *{@return a list of game records}
      */
     public List<GameRecord> loadGameResults() {
         ObjectMapper mapper = new ObjectMapper();

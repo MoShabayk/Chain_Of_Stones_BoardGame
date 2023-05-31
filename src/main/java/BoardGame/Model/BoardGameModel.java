@@ -74,19 +74,17 @@ public class BoardGameModel {
 
 
     /**
-     * Returns the read-only object property of the square at the specified coordinates on the game board.
      * @param i the row index of the square
      * @param j the column index of the square
-     * @return the read-only object property of the square at the specified coordinates
+     *{ @return the read-only object property of the square at the specified coordinates on the game board}
      */
     public ReadOnlyObjectProperty<Square> squareProperty(int i, int j) {
         return board[i][j].getReadOnlyProperty();
     }
 
     /**
-     * Gets the square value at the given position on the game board.
      * @param p the position of the square
-     * @return the square value at the specified position
+     * {@return the square value at the specified position on the game board}
      */
     public Square getSquare(Position p) {
 
@@ -135,8 +133,7 @@ public class BoardGameModel {
     }
 
     /**
-     * Returns a string representation of the game board.
-     * @return the string representation of the board
+     * {@return the string representation of the board}
      */
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -172,8 +169,7 @@ public class BoardGameModel {
 
 
     /**
-     * Checks if there is a winning condition is met on the game board.
-     * @return true if there is a winner, false otherwise
+     * {@return true if there is a winning condition met, false otherwise}
      */
     public boolean checkWin() {
         if (check_triplets(Square.BLUE)) {
@@ -191,9 +187,9 @@ public class BoardGameModel {
 
 
     /**
-     * Checks if there are quadruplets of the specified player on the game board, indicating a win condition.
+     * Checks if there are TRIPLETS of the specified player on the game board, indicating a win condition.
      * @param player the player to check for quadruplets
-     * @return true if there are quadruplets of the player, false otherwise
+     * @return true if there are TRIPLETS of the player, false otherwise
      */
     public boolean check_triplets(Square player) {
         // Check rows
